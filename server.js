@@ -1,29 +1,29 @@
-var express = require('express');
-var logger = require('morgan');
-var mongoose = require('mongoose');
-var axios = require('axios');
-var cheerio = require('cheerio');
-var db = require('./models');
+const express = require('express');
+const logger = require('morgan');
+const mongoose = require('mongoose');
+const axios = require('axios');
+const cheerio = require('cheerio');
+const db = require('./models');
 
-var app = express();
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'));
 
-var PORT = process.env.PORT || 3030;
+const PORT = process.env.PORT || 3030;
 
-var MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/newsscrapes';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/newsscrapes';
 
 mongoose.connect(MONGODB_URI);
 
-app.get('/scrape', function(req, res) {
-  axios.get('http://www.sciencedaily.com/').then(function(response) {
-    var $ = cheerio.load(response.data);
+app.get('/scrape', (req, res) => {
+  axios.get('http://www.sciencedaily.com/').then( (response) => {
+    const $ = cheerio.load(response.data);
 
-    $('h3.hero').each(function(i, element) {
-      var result = {};
+    $('h3.hero').each( (i, element) => {
+      const result = {};
 
       result.headline = $(this)
         .children('a')
@@ -39,52 +39,52 @@ app.get('/scrape', function(req, res) {
         .attr('href');
 
       db.Article.create(result)
-      .then(function(dbArticle) {
+      .then( (dbArticle) => {
         console.log(dbArticle);
       })
-      .catch(function(err) {
+      .catch( (err) => {
         console.log(err);
       });
     });
 
-    res.send('Scrape Complete');
+    res.send('A Scraping Has Occurred');
   });
 });
 
-app.get('/articles', function(req, res) {
+app.get('/articles', (req, res) => {
   db.Article.find({})
-    .then(function(dbArticle) {
+    .then( (dbArticle) => {
       res.json(dbArticle);
     })
-    .catch(function(err) {
+    .catch( (err) => {
       res.json(err);
     });
 });
 
-app.get('/articles/:id', function(req, res) {
+app.get('/articles/:id',  (req, res) => {
   db.Article.findOne({ _id: req.params.id })
     .populate('note')
-    .then(function(dbArticle) {
+    .then( (dbArticle) => {
       res.json(dbArticle);
     })
-    .catch(function(err) {
+    .catch( (err) => {
       res.json(err);
     });
 });
 
-app.post('/articles/:id', function(req, res) {
+app.post('/articles/:id', (req, res) => {
   db.Note.create(req.body)
-    .then(function(dbNote) {
+    .then( (dbNote) => {
       return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
     })
-    .then(function(dbArticle) {
+    .then( (dbArticle) => {
       res.json(dbArticle);
     })
-    .catch(function(err) {
+    .catch( (err) => {
       res.json(err);
     });
 });
 
-app.listen(PORT, function() {
+app.listen(PORT, () => {
   console.log(`App is now listening on port ${PORT} . . .`);
 });
