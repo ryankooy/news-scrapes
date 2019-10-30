@@ -19,32 +19,35 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/newsscrapes'
 mongoose.connect(MONGODB_URI);
 
 app.get('/scrape', (req, res) => {
-  axios.get('http://www.sciencedaily.com/').then( (response) => {
+  axios.get('https://www.sciencenews.org/topic/space/').then(response => {
     const $ = cheerio.load(response.data);
 
-    $('h3.hero').each( (i, element) => {
-      const result = {};
+    $('li div').each((i, element) => {
+      let result = {};
 
-      result.headline = $(this)
+      result.headline = $(element)
+        .find('h3')
         .children('a')
-        .text();
-      result.summary = $(this)
-        .children('')
-        .text();
-      result.URL = $(this)
-        .children('')
-        .attr('href');
-      result.image = $(this)
+        .text().trim();
+      result.summary = $(element)
+        .children('p.post-item-river__excerpt___3ok6B')
+        .text().trim();
+      result.URL = $(element)
+        .children('h3.post-item-river__title___J3spU')
         .children('a')
         .attr('href');
+      result.image = $(element)
+        .parent('li')
+        .children('figure')
+        .children('a')
+        .children('img')
+        .attr('src');
 
-      db.Article.create(result)
-      .then( (dbArticle) => {
-        console.log(dbArticle);
-      })
-      .catch( (err) => {
-        console.log(err);
-      });
+      if (result.headline && result.summary && result.URL && result.image) {
+        db.Article.create(result)
+        .then(dbArticle => console.log(dbArticle))
+        .catch(err => console.log(err));
+      }
     });
 
     res.send('A Scraping Has Occurred');
@@ -53,38 +56,24 @@ app.get('/scrape', (req, res) => {
 
 app.get('/articles', (req, res) => {
   db.Article.find({})
-    .then( (dbArticle) => {
-      res.json(dbArticle);
-    })
-    .catch( (err) => {
-      res.json(err);
-    });
+    .then(dbArticle => res.json(dbArticle))
+    .catch(err => res.json(err));
 });
 
 app.get('/articles/:id',  (req, res) => {
   db.Article.findOne({ _id: req.params.id })
     .populate('note')
-    .then( (dbArticle) => {
-      res.json(dbArticle);
-    })
-    .catch( (err) => {
-      res.json(err);
-    });
+    .then(dbArticle => res.json(dbArticle))
+    .catch(err => res.json(err));
 });
 
 app.post('/articles/:id', (req, res) => {
   db.Note.create(req.body)
-    .then( (dbNote) => {
+    .then(dbNote => {
       return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
     })
-    .then( (dbArticle) => {
-      res.json(dbArticle);
-    })
-    .catch( (err) => {
-      res.json(err);
-    });
+    .then(dbArticle => res.json(dbArticle))
+    .catch(err => res.json(err));
 });
 
-app.listen(PORT, () => {
-  console.log(`App is now listening on port ${PORT} . . .`);
-});
+app.listen(PORT, () => console.log(`App is now listening on port ${PORT} . . .`));
