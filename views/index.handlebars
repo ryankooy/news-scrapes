@@ -1,12 +1,29 @@
 <header>
-  <h1>News Scrapes</h1>
+  <h1 class="uk-text-center">News Scrapes</h1>
 </header>
 
 <div class="uk-container">
   <ul>
     {{#each articles}}
       <li>
-        {{result}}
+        {{!-- <div class="uk-section uk-section-xsmall uk-section-default uk-inline"> --}}
+          <div class="uk-child-width-1-2 uk-grid-collapse uk-text-center" uk-grid>
+            <div>
+              <div class="uk-tile uk-tile-muted">
+                <img src="{{this.image}}" class="uk-position-middle-left" alt="{{this.URL}}">
+              </div>
+            </div>
+            <div>
+              <div class="uk-tile uk-tile-muted">
+                <div class="text">
+                  <p><strong>{{this.headline}}</strong></p>
+                  <p><i>{{this.summary}}</i></p>
+                  <a href="{{this.URL}}"><p>Article Link</p></a>
+                  <p>{{this.when}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
       </li>
     {{/each}}
   </ul>

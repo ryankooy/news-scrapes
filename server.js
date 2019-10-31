@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'));
 
-app.engine('handlebars', exphbs());
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
 const PORT = process.env.PORT || 3030;
@@ -63,9 +63,9 @@ app.get('/scrape', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  db.Article.find({}).sort( { when: -1 } )
-    .then(() => {
-      res.render('index');
+  db.Article.find({})
+    .then((data) => {
+      res.render('index', { articles: data });
     })
     .catch(err => console.log(err));
 });

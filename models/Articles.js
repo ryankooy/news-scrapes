@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
 
 const Schema = mongoose.Schema;
 
@@ -30,6 +31,10 @@ const ArticlesSchema = new Schema({
     ref: 'Note'
   }
 });
+
+// ArticlesSchema.methods.dateFormat = function dateFormat(cb) {
+//   return Date = moment(Date).format('LL');
+// };
 
 const Article = mongoose.model('Article', ArticlesSchema);
 

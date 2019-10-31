@@ -1,7 +1,3 @@
-function showArticles() {
-  $.ajax({}).
-}
-
 $(document).on('click', 'p', () => {
   $('#notes').empty();
   let thisId = $(this).attr('data-id');
