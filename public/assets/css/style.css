@@ -2,10 +2,6 @@ ul, li {
   list-style-type: none;
 }
 
-/* img {
-  overflow: hidden;
-} */
-
 .text {
-  margin-left: 5px;
+  margin-top: 15px;
 }
