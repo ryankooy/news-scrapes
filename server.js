@@ -1,8 +1,10 @@
 const express = require('express');
+const exphbs = require('express-handlebars');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const axios = require('axios');
 const cheerio = require('cheerio');
+const moment = require('moment');
 const db = require('./models');
 
 const app = express();
@@ -11,6 +13,9 @@ app.use(logger('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'));
+
+app.engine('handlebars', exphbs());
+app.set('view engine', 'handlebars');
 
 const PORT = process.env.PORT || 3030;
 
@@ -42,8 +47,11 @@ app.get('/scrape', (req, res) => {
         .children('a')
         .children('img')
         .attr('src');
+      result.when = $(element)
+        .find('time')
+        .text();
 
-      if (result.headline && result.summary && result.URL && result.image) {
+      if (result.headline && result.summary && result.URL && result.image && result.when) {
         db.Article.create(result)
         .then(dbArticle => console.log(dbArticle))
         .catch(err => console.log(err));
@@ -52,6 +60,14 @@ app.get('/scrape', (req, res) => {
 
     res.send('A Scraping Has Occurred');
   });
+});
+
+app.get('/', (req, res) => {
+  db.Article.find({}).sort( { when: -1 } )
+    .then(() => {
+      res.render('index');
+    })
+    .catch(err => console.log(err));
 });
 
 app.get('/articles', (req, res) => {

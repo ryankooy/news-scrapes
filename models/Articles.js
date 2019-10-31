@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 const ArticlesSchema = new Schema({
   headline: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   summary: {
     type: String,
@@ -18,6 +19,10 @@ const ArticlesSchema = new Schema({
   image: {
     data: Buffer,
     type: String,
+    required: true
+  },
+  when: {
+    type: Date,
     required: true
   },
   note: {
