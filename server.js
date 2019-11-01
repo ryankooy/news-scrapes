@@ -4,7 +4,7 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const axios = require('axios');
 const cheerio = require('cheerio');
-const moment = require('moment');
+// const moment = require('moment');
 const db = require('./models');
 
 const app = express();
@@ -24,7 +24,7 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/newsscrapes'
 mongoose.connect(MONGODB_URI);
 
 app.get('/scrape', (req, res) => {
-  axios.get('https://www.sciencenews.org/topic/space/').then(response => {
+  axios.get('https://www.sciencenews.org/all-stories').then(response => {
     const $ = cheerio.load(response.data);
 
     $('li div').each((i, element) => {
@@ -49,11 +49,11 @@ app.get('/scrape', (req, res) => {
         .attr('src');
       result.when = $(element)
         .find('time')
-        .text();
+        .text().trim();
 
       if (result.headline && result.summary && result.URL && result.image && result.when) {
         db.Article.create(result)
-        .then(dbArticle => console.log(dbArticle))
+        .then(dbArticles => console.log(dbArticles))
         .catch(err => console.log(err));
       }
     });
@@ -63,7 +63,7 @@ app.get('/scrape', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  db.Article.find({})
+  db.Article.find({}).sort( { when: -1 } )
     .then((data) => {
       res.render('index', { articles: data });
     })

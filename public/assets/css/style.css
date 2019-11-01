@@ -1,3 +1,7 @@
+*, #header, .uk-card-title {
+  font-family: 'Quicksand', sans-serif;
+}
+
 ul, li {
   list-style-type: none;
 }
