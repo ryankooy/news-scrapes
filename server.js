@@ -58,7 +58,7 @@ app.get('/scrape', (req, res) => {
       }
     });
 
-    res.send('A Scraping Has Occurred');
+    res.redirect('/');
   });
 });
 

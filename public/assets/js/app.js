@@ -1,5 +1,11 @@
+const axios = require('axios');
+const cheerio = require('cheerio');
+const express = require('express');
+const db = require('./models');
+const app = express();
+
 $(document).on('click', 'p', () => {
-  $('#notes').empty();
+  $('#note').empty();
   let thisId = $(this).attr('data-id');
 
   $.ajax({
@@ -20,7 +26,7 @@ $(document).on('click', 'p', () => {
   });
 });
 
-$(document).on('click', '#savenote', () => {
+$(document).on('click', '#save', () => {
   let thisId = $(this).attr('data-id');
 
   $.ajax({

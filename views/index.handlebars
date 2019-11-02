@@ -1,6 +1,10 @@
 
-<div class="uk-container-small uk-text-center">
-  <h1 id="header">Science Scrapes</h1>
+<div class="uk-container-medium uk-text-center uk-margin-medium-left uk-margin-large-right">
+  <h1 id="header">
+    SCIENCE SCRAPES
+    <a href="/scrape"><div class="uk-button uk-button-default" id="scrape">Scrape the latest</div></a>
+  </h1>
+  <hr>
 
   <ul>
     {{#each articles}}
@@ -17,25 +21,38 @@
               <div class="uk-card-footer">
                 <a href="{{this.URL}}" class="uk-button uk-button-text">Go to full article.</a>
               </div>
+              <button class="uk-button uk-button-default uk-margin-small-right" data-id="{{this._id}}" type="button" uk-toggle="target: #a-modal">Create Note</button>
+              {{!-- modal --}}
+              <div id="a-modal" data-id="{{this._id}}" uk-modal>
+                <div class="uk-modal-dialog uk-modal-body">
+                  <h2 class="uk-modal-title">Science Note</h2>
+                  <div class="uk-margin">
+                    <input class="uk-input" id="save-title" placeholder="Title here . . .">
+                    <textarea class="uk-textarea" rows="5" id="save-note" placeholder="Note here . . ."></textarea>
+                  </div>
+                  <p class="uk-text-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                    <button class="uk-button uk-button-primary" id="save" type="button">Save Note</button>
+                  </p>
+                </div>
+              </div>
+              <div id="a-modal" data-id="{{this._id}}" uk-modal>
+                <div class="uk-modal-dialog uk-modal-body">
+                  <h2 class="uk-modal-title">Science Note</h2>
+                  <div class="uk-margin">
+                    <div class="uk-text-lead uk-text-left" id="title">{{this.title}}</div>
+                    <div class="uk-text-left" id="note">{{this.body}}</div>
+                  </div>
+                  <p class="uk-text-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                    <button class="uk-button uk-button-primary" id="save" type="button">Save Note</button>
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </li>
     {{/each}}
   </ul>
-
-  {{!-- modal --}}
-  <button class="uk-button uk-button-default uk-margin-small-right" type="button" uk-toggle="target: #modal-example">Open</button>
-  <a href="#modal-example" uk-toggle>Open</a>
-
-  <div id="modal-example" uk-modal>
-    <div class="uk-modal-dialog uk-modal-body">
-      <h2 class="uk-modal-title">Headline</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      <p class="uk-text-right">
-        <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-        <button class="uk-button uk-button-primary" type="button">Save</button>
-      </p>
-    </div>
-  </div>
 </div>

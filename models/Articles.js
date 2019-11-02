@@ -32,11 +32,6 @@ const ArticlesSchema = new Schema({
   }
 });
 
-// ArticlesSchema.methods.dateFormat = function () {
-//   this.when = moment(this.when).format('LL');
-//   return this.when;
-// };
-
 const Article = mongoose.model('Article', ArticlesSchema);
 
 module.exports = Article;
