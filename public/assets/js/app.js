@@ -1,10 +1,4 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
-const express = require('express');
-const db = require('./models');
-const app = express();
-
-$(document).on('click', 'p', () => {
+$('#view').on('click', () => {
   $('#note').empty();
   let thisId = $(this).attr('data-id');
 
@@ -12,36 +6,28 @@ $(document).on('click', 'p', () => {
     method: 'GET',
     url: '/articles/' + thisId
   })
-  .then((data) => {
+  .then(data => {
     console.log(data);
-    $('#notes').append('<h2>' + data.title + '</h2>');
-    $('#notes').append('<input id="titleinput" name="title" >');
-    $('#notes').append('<textarea id="bodyinput" name="body"></textarea>');
-    $('#notes').append('<button data-id="' + data._id + '" id="savenote">Save Note</button>');
-
-    if (data.note) {
-      $('#titleinput').val(data.note.title);
-      $('#bodyinput').val(data.note.body);
-    }
+    data.render({ note: data.note });
   });
 });
 
-$(document).on('click', '#save', () => {
+$('#save').on('click', () => {
   let thisId = $(this).attr('data-id');
 
   $.ajax({
     method: 'POST',
     url: '/articles/' + thisId,
     data: {
-      title: $('#titleinput').val(),
-      body: $('#bodyinput').val()
+      title: $('#save-title').val(),
+      body: $('#save-note').val()
     }
   })
-  .then((data) => {
+  .then(data => {
     console.log(data);
-    $('#notes').empty();
+    $('#note').empty();
   });
 
-  $('#titleinput').val('');
-  $('#bodyinput').val('');
+  $('#save-title').val('');
+  $('#save-note').val('');
 });

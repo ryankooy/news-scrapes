@@ -23,8 +23,8 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/newsscrapes'
 
 mongoose.connect(MONGODB_URI);
 
-app.get('/scrape', (req, res) => {
-  axios.get('https://www.sciencenews.org/all-stories').then(response => {
+function scrapeIt(url) {
+  axios.get(url).then(response => {
     const $ = cheerio.load(response.data);
 
     $('li div').each((i, element) => {
@@ -57,9 +57,14 @@ app.get('/scrape', (req, res) => {
         .catch(err => console.log(err));
       }
     });
-
-    res.redirect('/');
   });
+}
+
+app.get('/scrape', (req, res) => {
+  scrapeIt('https://www.sciencenews.org/all-stories');
+  scrapeIt('https://www.sciencenews.org/all-stories/page/2');
+  scrapeIt('https://www.sciencenews.org/all-stories/page/3');
+  res.redirect('/');
 });
 
 app.get('/', (req, res) => {
@@ -76,6 +81,12 @@ app.get('/articles', (req, res) => {
     .catch(err => res.json(err));
 });
 
+// app.get('/notes', (req, res) => {
+//   db.Note.find({})
+//     .then(dbNotes => res.json(dbNotes))
+//     .catch(err => console.log(err));
+// });
+
 app.get('/articles/:id',  (req, res) => {
   db.Article.findOne({ _id: req.params.id })
     .populate('note')
@@ -86,7 +97,7 @@ app.get('/articles/:id',  (req, res) => {
 app.post('/articles/:id', (req, res) => {
   db.Note.create(req.body)
     .then(dbNote => {
-      return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
+      return db.Article.findOneAndUpdate({}, { $push: { note: dbNote._id } }, { new: true });
     })
     .then(dbArticle => res.json(dbArticle))
     .catch(err => res.json(err));
