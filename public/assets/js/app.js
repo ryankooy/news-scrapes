@@ -8,12 +8,18 @@ $('#view').on('click', () => {
   })
   .then(data => {
     console.log(data);
-    data.render({ note: data.note });
+    data.render({
+      title: data.title,
+      body: data.body
+    });
   });
 });
 
 $('#save').on('click', () => {
   let thisId = $(this).attr('data-id');
+  
+  const newNote = new Note(req.body);
+  newNote.save();
 
   $.ajax({
     method: 'POST',
