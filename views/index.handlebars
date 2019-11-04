@@ -21,8 +21,11 @@
               <div class="uk-card-footer">
                 <a href="{{this.URL}}" class="uk-button uk-button-text">Go to full article.</a>
               </div>
-              <button class="uk-button uk-button-default uk-margin-small-right" data-id="{{this._id}}" type="button" uk-toggle="target: #a-modal">Create Note</button>
-              <button class="uk-button uk-button-default uk-margin-small-right" id="view" data-id="{{this._id}}" type="button" uk-toggle="target: #b-modal">View Note(s)</button>
+              <div class="uk-button-group-default">
+                <button class="uk-button uk-button-default uk-margin-small-right" id="save-article" data-id="{{this._id}}" type="button" uk-toggle="target: #a-modal">Save Article</button>
+                <button class="uk-button uk-button-default uk-margin-small-right" data-id="{{this._id}}" type="button" uk-toggle="target: #a-modal">Create Note</button>
+                <button class="uk-button uk-button-default uk-margin-small-right" id="view" data-id="{{this._id}}" type="button" uk-toggle="target: #b-modal">View Note(s)</button>
+              </div>
             </div>
           </div>
         </div>
