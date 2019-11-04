@@ -8,7 +8,6 @@ $('#view').on('click', () => {
   })
   .then(data => {
     console.log(data);
-    data.render({ note: data.note });
   });
 });
 

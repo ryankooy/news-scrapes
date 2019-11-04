@@ -32,7 +32,7 @@
                       <textarea class="uk-textarea" rows="5" id="save-note" placeholder="Note here . . ."></textarea>
                       <p class="uk-text-right">
                         <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                        <button class="uk-button uk-button-primary uk-modal-close" action="/articles/{{this._id}}" method="post" id="save" type="button">Save Note</button>
+                        <a href="/articles/{{this._id}}"><button class="uk-button uk-button-primary uk-modal-close" id="save" type="submit">Save Note</button></a>
                       </p>
                     </form>
                   </div>

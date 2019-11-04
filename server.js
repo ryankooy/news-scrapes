@@ -4,7 +4,6 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const axios = require('axios');
 const cheerio = require('cheerio');
-// const moment = require('moment');
 const db = require('./models');
 
 const app = express();
@@ -75,28 +74,22 @@ app.get('/', (req, res) => {
     .catch(err => console.log(err));
 });
 
-app.get('/articles', (req, res) => {
+app.get('/', (req, res) => {
   db.Article.find({})
     .then(dbArticle => res.json(dbArticle))
     .catch(err => res.json(err));
 });
 
-// app.get('/notes', (req, res) => {
-//   db.Note.find({})
-//     .then(dbNotes => res.json(dbNotes))
-//     .catch(err => console.log(err));
-// });
-
-app.get('/articles/:id',  (req, res) => {
+app.get('/articles/',  (req, res) => {
   db.Article.findOne({ _id: req.params.id })
-    .populate('note')
+    .populate('Note')
     .then(dbArticle => res.json(dbArticle))
     .catch(err => res.json(err));
 });
 
-app.post('/articles/:id', (req, res) => {
+app.post('/note/:id', (req, res) => {
   db.Note.create(req.body)
-    .then(dbNote => {
+    .then(() => dbNote => {
       return db.Article.findOneAndUpdate({}, { $push: { note: dbNote._id } }, { new: true });
     })
     .then(dbArticle => res.json(dbArticle))
