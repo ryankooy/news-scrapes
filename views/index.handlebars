@@ -11,7 +11,6 @@
         <div class="uk-card uk-card-default uk-card-small uk-grid-collapse uk-child-width-1-2@s uk-margin-small uk-grid-row-medium" uk-grid>
           <div class="uk-card-media-left uk-cover-container">
             <img src={{this.image}} alt="" uk-cover>
-            {{!-- <canvas width="1400" height="200"></canvas> --}}
           </div>
           <div>
             <div class="uk-card-body">
@@ -21,32 +20,34 @@
                 <a href="{{this.URL}}" class="uk-button uk-button-text">Go to full article.</a>
               </div>
               <button class="uk-button uk-button-default uk-margin-small-right" type="button" uk-toggle="target: #a-modal">Create Note</button>
-              <button class="uk-button uk-button-default uk-margin-small-right" id="view" data-id="{{this._id}}" action="/articles/{{this._id}}" method="get" type="button" uk-toggle="target: #b-modal">View Note</button>
-              {{!-- modal --}}
+              <button class="uk-button uk-button-default uk-margin-small-right" id="view" data-id="{{this._id}}" type="button" uk-toggle="target: #b-modal">View Note</button>
+              
+              {{!-- modals --}}
               <div id="a-modal" uk-modal>
                 <div class="uk-modal-dialog uk-modal-body">
                   <h2 class="uk-modal-title">Science Note</h2>
                   <div class="uk-margin">
-                    <form action="/articles/{{this._id}}" method="post">
+                    <form>
                       <input class="uk-input" id="save-title" placeholder="Title here . . .">
                       <textarea class="uk-textarea" rows="5" id="save-note" placeholder="Note here . . ."></textarea>
                       <p class="uk-text-right">
                         <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                        <a href="/articles/{{this._id}}"><button class="uk-button uk-button-primary uk-modal-close" id="save" type="submit">Save Note</button></a>
+                        <button class="uk-button uk-button-primary uk-modal-close" id="save" data-id="{{this._id}}" type="submit">Save Note</button>
                       </p>
                     </form>
                   </div>
                 </div>
               </div>
+              
               <div id="b-modal" uk-modal>
                 <div class="uk-modal-dialog uk-modal-body">
                   <h2 class="uk-modal-title">Science Note(s)</h2>
                   <div class="uk-margin">
                     <ul>
-                      {{#each this.note}}
+                      {{#each note}}
                         <li>
-                          <div class="uk-text-lead uk-text-left" action="/articles/{{this._id}}" method="get" id="title">{{this.title}}</div>
-                          <div class="uk-text-left" action="/articles/{{this._id}}" method="get" id="note">{{this.body}}</div>
+                          <div class="uk-text-lead uk-text-left" id="title">{{this.title}}</div>
+                          <div class="uk-text-left" id="note">{{this.body}}</div>
                         </li>
                       {{/each}}
                     </ul>
