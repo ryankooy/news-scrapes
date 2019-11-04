@@ -74,16 +74,17 @@ app.get('/', (req, res) => {
     .catch(err => console.log(err));
 });
 
-app.get('/', (req, res) => {
+app.get('/articles', (req, res) => {
   db.Article.find({})
-    .then(dbArticle => res.json(dbArticle))
-    .catch(err => res.json(err));
+    .then(dbArticles => res.json(dbArticles))
+    .catch(err => console.log(err));
 });
 
 app.post('/articles/:id', (req, res) => {
-  newNote.save(req.body)
+  db.Note.create(req.body)
     .then(dbNote => {
-      return db.Article.findOneAndUpdate({}, { $push: { note: dbNote._id } }, { new: true });
+     db.Article.findOneAndUpdate({}, { $push: { note: dbNote._id } }, { new: true });
+     console.log(dbNote);
     })
     .then(dbArticle => res.json(dbArticle))
     .catch(err => res.json(err));

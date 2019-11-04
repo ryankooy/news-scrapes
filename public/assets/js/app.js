@@ -27,10 +27,7 @@ $('#view').on('click', () => {
     url: `/articles/${thisId}`
   })
   .then(data => {
-    data.render('index', {
-      title: data.title,
-      body: data.body
-    });
+    data.render('index', { body: data.body });
     console.log(data);
   });
 });
