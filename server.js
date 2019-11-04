@@ -80,8 +80,13 @@ app.get('/articles', (req, res) => {
 
 app.get('/saved', (req, res) => {
   db.Article.find({ saved: true }).sort({ when: -1 })
-    .then(dbArticles => res.json(dbArticles))
     .then(data => res.render('saved', { articles: data }))
+    .catch(err => console.log(err));
+});
+
+app.get('/api/saved', (req, res) => {
+  db.Article.find({ saved: true }).sort({ when: -1 })
+    .then(dbArticles => res.json(dbArticles))
     .catch(err => console.log(err));
 });
 
