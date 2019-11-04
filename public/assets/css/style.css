@@ -11,11 +11,12 @@ body {
 
 #header {
   padding-top: 18px;
+  padding-bottom: 0;
   color: rgba(153, 214, 255, 0.658);
   font-size: 75px;
 }
 
-#scrape {
+#scrape, #save-article, .uk-text-small, #return {
   color: rgba(153, 214, 255, 0.658);
 }
 
