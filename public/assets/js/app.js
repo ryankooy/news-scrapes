@@ -1,29 +1,36 @@
-const Note = require('.models/Notes.js');
-const app = require('server.js');
-
+// save note
 $('#save').on('click', () => {
-  let thisId = $(this).attr('data-id');
-
-  const newNote = new Note({
-    title: $('#save-title').val(),
-    body: $('#save-note').val()
-  });
-  newNote.save();
+  const thisId = $(this).attr('data-id');
   
-  app.post('/articles/' + thisId, newNote, (req, res) => {
-    console.log(res);
-    $('#note').empty();
-  });
+  $.ajax({
+    method: 'POST',
+    url: `/articles/${thisId}`,
+    data: {
+      title: $('#save-title').val(),
+      body: $('#save-note').val()
+    }
+  })
+  .then(data => {
+    console.log(data);
 
-  $('#save-title').val('');
-  $('#save-note').val('');
+    $('#save-title').val('');
+    $('#save-note').val('');
+  });
 });
 
+// view note
 $('#view').on('click', () => {
   let thisId = $(this).attr('data-id');
 
-  app.get('/articles/' + thisId, (req, res) => {
-     console.log(res);
-     res.render({ note: res });
-   });
+  $.ajax({
+    method: 'GET',
+    url: `/articles/${thisId}`
+  })
+  .then(data => {
+    data.render('index', {
+      title: data.title,
+      body: data.body
+    });
+    console.log(data);
+  });
 });

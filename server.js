@@ -68,7 +68,7 @@ app.get('/scrape', (req, res) => {
 
 app.get('/', (req, res) => {
   db.Article.find({}).sort( { when: -1 } )
-    .then((data) => {
+    .then(data => {
       res.render('index', { articles: data });
     })
     .catch(err => console.log(err));
@@ -81,8 +81,8 @@ app.get('/', (req, res) => {
 });
 
 app.post('/articles/:id', (req, res) => {
-  db.Note.create(req.body)
-    .then(() => dbNote => {
+  newNote.save(req.body)
+    .then(dbNote => {
       return db.Article.findOneAndUpdate({}, { $push: { note: dbNote._id } }, { new: true });
     })
     .then(dbArticle => res.json(dbArticle))

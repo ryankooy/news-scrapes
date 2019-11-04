@@ -21,46 +21,46 @@
               </div>
               <button class="uk-button uk-button-default uk-margin-small-right" type="button" uk-toggle="target: #a-modal">Create Note</button>
               <button class="uk-button uk-button-default uk-margin-small-right" id="view" data-id="{{this._id}}" type="button" uk-toggle="target: #b-modal">View Note</button>
-              
-              {{!-- modals --}}
-              <div id="a-modal" uk-modal>
-                <div class="uk-modal-dialog uk-modal-body">
-                  <h2 class="uk-modal-title">Science Note</h2>
-                  <div class="uk-margin">
-                    <form>
-                      <input class="uk-input" id="save-title" placeholder="Title here . . .">
-                      <textarea class="uk-textarea" rows="5" id="save-note" placeholder="Note here . . ."></textarea>
-                      <p class="uk-text-right">
-                        <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                        <button class="uk-button uk-button-primary uk-modal-close" id="save" data-id="{{this._id}}" type="submit">Save Note</button>
-                      </p>
-                    </form>
-                  </div>
-                </div>
-              </div>
-              
-              <div id="b-modal" uk-modal>
-                <div class="uk-modal-dialog uk-modal-body">
-                  <h2 class="uk-modal-title">Science Note(s)</h2>
-                  <div class="uk-margin">
-                    <ul>
-                      {{#each note}}
-                        <li>
-                          <div class="uk-text-lead uk-text-left" id="title">{{this.title}}</div>
-                          <div class="uk-text-left" id="note">{{this.body}}</div>
-                        </li>
-                      {{/each}}
-                    </ul>
-                  </div>
-                  <p class="uk-text-right">
-                    <button class="uk-button uk-button-default uk-modal-close" type="button">OK</button>
-                  </p>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </li>
     {{/each}}
   </ul>
+</div>
+
+{{!-- modals --}}
+<div id="a-modal" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body">
+    <h2 class="uk-modal-title">Science Note</h2>
+    <div class="uk-margin">
+      <form>
+        <input class="uk-input" id="save-title" placeholder="Title here . . .">
+        <textarea class="uk-textarea" rows="5" id="save-note" placeholder="Note here . . ."></textarea>
+        <p class="uk-text-right">
+          <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+          <button class="uk-button uk-button-primary uk-modal-close" id="save" data-id="{{this._id}}" type="button">Save Note</button>
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="b-modal" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body">
+    <h2 class="uk-modal-title">Science Note(s)</h2>
+    <div class="uk-margin">
+      <ul>
+        {{#each note}}
+          <li>
+            <div class="uk-text-lead uk-text-left" data-id="{{this._id}}" id="title">{{this.title}}</div>
+            <div class="uk-text-left" data-id="{{this._id}}" id="note">{{this.body}}</div>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+    <p class="uk-text-right">
+      <button class="uk-button uk-button-default uk-modal-close" type="button">OK</button>
+    </p>
+  </div>
 </div>
