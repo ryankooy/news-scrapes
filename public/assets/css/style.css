@@ -16,7 +16,7 @@ html, body {
   font-size: 75px;
 }
 
-#scrape, #save-article, .uk-text-small, #return {
+#scrape, .uk-text-small, #return {
   color: rgba(153, 214, 255, 0.658);
 }
 
