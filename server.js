@@ -67,7 +67,7 @@ app.get('/scrape', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  db.Article.find({}).sort( { when: -1 } )
+  db.Article.find({}).sort({ when: -1 })
     .then(data => {
       res.render('index', { articles: data });
     })
@@ -76,6 +76,12 @@ app.get('/', (req, res) => {
 
 app.get('/articles', (req, res) => {
   db.Article.find({})
+    .then(dbArticles => res.json(dbArticles))
+    .catch(err => console.log(err));
+});
+
+app.get('/saved', (req, res) => {
+  db.Article.find({ saved: true }).sort({ when: -1 })
     .then(dbArticles => res.json(dbArticles))
     .catch(err => console.log(err));
 });
