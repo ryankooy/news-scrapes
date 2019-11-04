@@ -1,11 +1,5 @@
-$('#view').on('click', () => {
-  let thisId = $(this).attr('data-id');
-
-  $.get('/articles/' + thisId, (req, res) => {
-     console.log(res);
-     res.render({ note: res });
-   });
-});
+const Note = require('.models/Notes.js');
+const app = require('server.js');
 
 $('#save').on('click', () => {
   let thisId = $(this).attr('data-id');
@@ -16,11 +10,20 @@ $('#save').on('click', () => {
   });
   newNote.save();
   
-  $.post('/articles/' + thisId, newNote, (req, res) => {
+  app.post('/articles/' + thisId, newNote, (req, res) => {
     console.log(res);
     $('#note').empty();
   });
 
   $('#save-title').val('');
   $('#save-note').val('');
+});
+
+$('#view').on('click', () => {
+  let thisId = $(this).attr('data-id');
+
+  app.get('/articles/' + thisId, (req, res) => {
+     console.log(res);
+     res.render({ note: res });
+   });
 });
