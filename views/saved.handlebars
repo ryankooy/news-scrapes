@@ -1,1 +1,24 @@
-
+<ul>
+  {{#each articles}}
+    {{#if saved}}
+    <li>
+      <div class="uk-card uk-card-default uk-card-small uk-grid-collapse uk-child-width-1-2@s uk-margin-small uk-grid-row-medium" uk-grid>
+        <div class="uk-card-media-left uk-cover-container">
+          <img src={{this.image}} alt="" uk-cover>
+        </div>
+        <div>
+          <div class="uk-card-body">
+            <h3 class="uk-card-title"><strong>{{this.headline}}</strong></h3>
+            <p><i>{{this.summary}}</i></p>
+            <div class="uk-card-footer">
+              <a href="{{this.URL}}" class="uk-button uk-button-text">Go to full article.</a>
+            </div>
+            <button class="uk-button uk-button-default uk-margin-small-right" data-id="{{this._id}}" type="button" uk-toggle="target: #a-modal">Create Note</button>
+            <button class="uk-button uk-button-default uk-margin-small-right" id="view" data-id="{{this._id}}" type="button" uk-toggle="target: #b-modal">View Note(s)</button>
+          </div>
+        </div>
+      </div>
+     </li>
+    {{/if}}
+  {{/each}}
+</ul>
