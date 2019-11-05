@@ -1,14 +1,15 @@
 <div class="uk-container-medium uk-text-center uk-margin-medium-left uk-margin-large-right">
   <h1 id="header">SCIENCE SCRAPES</h1>
+  <div class="uk-divider-small" />
   <div class="uk-inline">
     <div class="uk-text uk-text-small uk-margin-small-bottom">The <i>ScienceNews.org</i> Edition</div>
-    <a href="/scrape"><div class="uk-button uk-button-default" id="return">Show All Articles</div></a>
+    <a href="/"><div class="uk-button uk-button-default" id="return">Show All Articles</div></a>
   </div>
   <hr>
 
-  {{#if saved}}
   <ul>
     {{#each articles}}
+      {{#if saved}}
         <li>
           <div class="uk-card uk-card-default uk-card-small uk-grid-collapse uk-child-width-1-2@s uk-margin-small uk-grid-row-medium" uk-grid>
             <div class="uk-card-media-left uk-cover-container">
@@ -27,11 +28,11 @@
             </div>
           </div>
         </li>
+      {{else}}
+        <div class="uk-section-small">
+          <div class="uk-text uk-text-large uk-text-danger">Oops! No articles have been saved.</div>
+        </div>
+      {{/if}}
     {{/each}}
   </ul>
-  {{else}}
-    <div class="uk-section-small">
-      <div class="uk-text uk-text-large uk-text-danger">Oops! No articles have been saved.</div>
-    </div>
-  {{/if}}
 </div>
