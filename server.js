@@ -79,7 +79,7 @@ app.get('/articles', (req, res) => {
 });
 
 app.post('/saved/:id', (req, res) => {
-  db.Article.findOneAndUpdate({ $set: { saved: true } })
+  db.Article.findOneAndUpdate({ _id: req.body._id }, { $set: { saved: true } })
     .then(dbArticles => res.json(dbArticles))
     .catch(err => console.log(err));
 });
@@ -99,7 +99,7 @@ app.get('/saved', (req, res) => {
 app.post('/articles/:id', (req, res) => {
   db.Note.create(req.body)
     .then(dbNote => {
-     db.Article.findOneAndUpdate({}, { $push: { note: dbNote._id } }, { new: true });
+     db.Article.findOneAndUpdate({ _id: req.body._id }, { $push: { note: dbNote._id } }, { new: true });
      console.log(dbNote);
     })
     .then(dbArticle => res.json(dbArticle))
