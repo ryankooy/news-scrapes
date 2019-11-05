@@ -8,8 +8,8 @@
   <hr>
 
   <ul>
-    {{#each articles}}
-      {{#if saved}}
+    {{#if saved}}
+      {{#each articles}}
         <li>
           <div class="uk-card uk-card-default uk-card-small uk-grid-collapse uk-child-width-1-2@s uk-margin-small uk-grid-row-medium" uk-grid>
             <div class="uk-card-media-left uk-cover-container">
@@ -28,11 +28,11 @@
             </div>
           </div>
         </li>
-      {{else}}
-        <div class="uk-section-small">
-          <div class="uk-text uk-text-large uk-text-danger">Oops! No articles have been saved.</div>
-        </div>
-      {{/if}}
-    {{/each}}
+      {{/each}}
+    {{else}}
+      <div class="uk-section-small">
+        <div class="uk-text uk-text-large uk-text-danger">Oops! No articles have been saved.</div>
+      </div>
+    {{/if}}
   </ul>
 </div>
