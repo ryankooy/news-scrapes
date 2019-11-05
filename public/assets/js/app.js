@@ -1,12 +1,12 @@
 // save note
-$('#save').on('click', () => {
+$(document).on('click', 'save', () => {
   const thisId = $(this).attr('data-id');
-  const thisNote = $('#save-note').val();
+
   $.ajax({
     method: 'POST',
-    url: `/articles/${thisId}`,
+    url: '/articles/' + thisId,
     data: {
-      body: thisNote
+      body: $('#save-note' + thisId).val()
     }})
     .then(data => console.log(data))
     .catch(err => console.log(err));
@@ -15,24 +15,25 @@ $('#save').on('click', () => {
 });
 
 // view note
-$('#view').on('click', () => {
+$(document).on('click', '#view', () => {
   let thisId = $(this).attr('data-id');
 
   $.ajax({
     method: 'GET',
-    url: `/articles/${thisId}`
+    url: '/articles/' + thisId
   })
   .then(data => console.log(data))
   .catch(err => console.log(err));
 });
 
 // save article
-$('#save-article').on('click', (req, res) => {
+$(document).on('click', '#save-article', (req, res) => {
   let thisId = $(this).attr('data-id');
-  
+  $('#save-article').attr('style', 'color: orange');
+
   $.ajax({
-      method: 'POST',
-      url: `/saved/${thisId}`
+      method: 'PUT',
+      url: '/saved/' + thisId
     })
     .then(data => console.log(data))
     .catch(err => console.log(err));

@@ -72,21 +72,21 @@ app.get('/', (req, res) => {
     .catch(err => console.log(err));
 });
 
-app.get('/articles', (req, res) => {                                                                                                                                                                                                                                                                                                                                                                                             nn
+app.get('/articles', (req, res) => {
   db.Article.find({})
     .then(dbArticles => res.json(dbArticles))
     .catch(err => console.log(err));
 });
 
-app.post('/saved/:id', (req, res) => {
-  db.Article.updateOne({ $set: { saved: true } })
+app.put('/saved/:id', (req, res) => {
+  db.Article.update({ $set: {saved: true } })
     .then(dbArticles => res.json(dbArticles))
     .catch(err => console.log(err));
 });
 
 app.get('/saved', (req, res) => {
   db.Article.find({ saved: true }).sort({ when: -1 })
-    .then(data => res.render('saved', { articles: data }))
+    .then(dbArticles => res.render('saved', { dbArticles }))
     .catch(err => console.log(err));
 });
 
