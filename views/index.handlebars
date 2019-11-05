@@ -1,9 +1,9 @@
 <div class="uk-container-medium uk-text-center uk-margin-medium-left uk-margin-large-right">
-  <h1 id="header">SCIENCE SCRAPES</h1>
+  <div id="header">SCIENCE SCRAPES</div>
   <div class="uk-inline">
     <div class="uk-text uk-text-small uk-margin-bottom">The <i>ScienceNews.org</i> Edition</div>
     <a href="/scrape"><div class="uk-button uk-button-default uk-margin-small-right" id="scrape">Scrape the latest</div></a>
-    <a href="/saved"><div class="uk-button uk-button-default" id="scrape">View Saved Articles</div></a>
+    <a href="/saved"><div class="uk-button uk-button-default" id="view-saved">View Saved Articles</div></a>
   </div>
   <hr>
 
@@ -36,11 +36,10 @@
             <h2 class="uk-modal-title">Science Note</h2>
             <div class="uk-margin">
               <form>
-                <input class="uk-input" id="save-title" placeholder="Title here . . .">
                 <textarea class="uk-textarea" rows="5" id="save-note" placeholder="Note here . . ."></textarea>
                 <p class="uk-text-right">
                   <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                  <a href="/articles/{{this._id}}"><button class="uk-button uk-button-primary uk-modal-close" id="save" data-id="{{this._id}}" type="button">Save Note</button></a>
+                  <button class="uk-button uk-button-primary uk-modal-close" id="save" data-id="{{this._id}}" type="button">Save Note</button>
                 </p>
               </form>
             </div>
@@ -55,7 +54,7 @@
                 {{#if note}}
                   {{#each note}}
                     <li>
-                      <div class="uk-text-left" data-id="{{this._id}}" id="note">{{this.body}}</div>
+                      <p data-id="{{this._id}}" id="note">{{this.body}}</p>
                     </li>
                   {{/each}}
                 {{/if}}

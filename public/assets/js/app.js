@@ -1,18 +1,17 @@
 // save note
 $('#save').on('click', () => {
   const thisId = $(this).attr('data-id');
-  
+  const thisNote = $('#save-note').val();
   $.ajax({
     method: 'POST',
     url: `/articles/${thisId}`,
     data: {
-      title: $('#save-title').val(),
-      body: $('#save-note').val()
+      body: thisNote
     }})
-    .then(data => console.log(data));
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
 
-    $('#save-title').val('');
-    $('#save-note').val('');
+  $('#save-note').val('');
 });
 
 // view note
@@ -23,7 +22,8 @@ $('#view').on('click', () => {
     method: 'GET',
     url: `/articles/${thisId}`
   })
-  .then(data => console.log(data));
+  .then(data => console.log(data))
+  .catch(err => console.log(err));
 });
 
 // save article
@@ -31,11 +31,9 @@ $('#save-article').on('click', (req, res) => {
   let thisId = $(this).attr('data-id');
   
   $.ajax({
-    method: 'POST',
-    url: '/saved',
-    data: { 
-      _id: thisId,
-      saved: true
-    }})
-    .then(data => console.log(data));
-});
+      method: 'POST',
+      url: `/saved/${thisId}`
+    })
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
+  });

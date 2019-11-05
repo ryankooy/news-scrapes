@@ -78,8 +78,8 @@ app.get('/articles', (req, res) => {                                            
     .catch(err => console.log(err));
 });
 
-app.put('/saved/:id', (req, res) => {
-  db.Article.updateOne({ _id: req.params.id }, { $set: { saved: true } })
+app.post('/saved/:id', (req, res) => {
+  db.Article.updateOne({ $set: { saved: true } })
     .then(dbArticles => res.json(dbArticles))
     .catch(err => console.log(err));
 });
@@ -90,7 +90,7 @@ app.get('/saved', (req, res) => {
     .catch(err => console.log(err));
 });
 
-app.get('/saved', (req, res) => {
+app.get('/api/saved', (req, res) => {
   db.Article.find({ saved: true })
     .then(dbArticles => res.json(dbArticles))
     .catch(err => console.log(err));
@@ -99,25 +99,15 @@ app.get('/saved', (req, res) => {
 app.post('/articles/:id', (req, res) => {
   db.Note.create(req.body)
     .then(dbNote => {
-     return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
-    })
-    .then(dbArticle => res.json(dbArticle))
-    .catch(err => res.json(err));
-});
-
-app.post('/articles/:id', (req, res) => {
-  db.Note.create(req.body)
-    .then(dbNote => {
-     db.Article.findOneAndUpdate({}, { $push: { note: dbNote._id } }, { new: true });
-     console.log(dbNote);
+     return db.Article.findOneAndUpdate({}, { $set: { note: dbNote._id } }, { new: true });
     })
     .then(dbArticle => res.json(dbArticle))
     .catch(err => res.json(err));
 });
 
 app.get('/articles/:id',  (req, res) => {
-  db.Article.findOne({ _id: req.params.id })
-    // .populate('note')
+  db.Article.findOne({ _id: req.params._id })
+    .populate('note')
     .then(dbArticle => res.json(dbArticle))
     .catch(err => res.json(err));
 });

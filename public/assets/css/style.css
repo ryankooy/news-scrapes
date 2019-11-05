@@ -10,14 +10,12 @@ body {
 }
 
 #header {
-  padding-top: 18px;
-  padding-bottom: 0;
   color: rgba(153, 214, 255, 0.658);
   font-size: 85px;
   padding-top: 15px;
 }
 
-#scrape, .uk-text-small, #return {
+#scrape, .uk-text-small, #return, #view-saved {
   color: rgba(153, 214, 255, 0.658);
 }
 
