@@ -1,14 +1,16 @@
-<div class="uk-container-medium uk-text-center uk-margin-medium-left uk-margin-large-right">
+<div class="uk-container-medium uk-text-center uk-margin-small-left uk-margin-large-right">
   <h1 id="header">
     SCIENCE SCRAPES
-    <a href="/scrape"><div class="uk-button uk-button-default" id="scrape">Scrape the latest</div></a>
-  <hr>
   </h1>
+  <p class="uk-text uk-text-small">THE <i>SCIENCENEWS.ORG</i> EDITION</p>
+  <a href="/scrape"><div class="uk-button uk-button-default uk-button-small" id="scrape">Scrape the latest</div></a>
+  <a href="/saved"><div class="uk-button uk-button-default uk-button-small" id="view-saved">View Saved Articles</div></a>
+  <hr>
 
   <ul>
     {{#each articles}}
       <li>
-        <div class="uk-card uk-card-default uk-card-small uk-grid-collapse uk-child-width-1-2@s uk-margin-small uk-grid-row-medium" uk-grid>
+        <div class="uk-card uk-card-default uk-card-small uk-grid-collapse uk-child-width-1-2@s uk-margin uk-grid-row-medium" uk-grid>
           <div class="uk-card-media-left uk-cover-container">
             <img src={{this.image}} alt="" uk-cover>
           </div>
@@ -19,8 +21,10 @@
               <div class="uk-card-footer">
                 <a href="{{this.URL}}" class="uk-button uk-button-text">Go to full article.</a>
               </div>
-              <button class="uk-button uk-button-default uk-margin-small-right" data-id="{{this._id}}" type="button" uk-toggle="target: #a-modal">Create Note</button>
-              <button class="uk-button uk-button-default uk-margin-small-right" id="view" data-id="{{this._id}}" type="button" uk-toggle="target: #b-modal">View Note(s)</button>
+              {{!-- <button class="uk-button uk-button-default uk-margin-small-right" data-id="{{this._id}}" type="button" uk-toggle="target: #a-modal">Create Note</button> --}}
+              {{!-- <button class="uk-button uk-button-default uk-margin-small-right" id="view" data-id="{{this._id}}" type="button" uk-toggle="target: #b-modal">View Note(s)</button> --}}
+              <button class="uk-button uk-button-default uk-margin-small-right" id="save-article" data-id="{{this._id}}" type="button" disabled="false">Save Article</button>
+              <button class="uk-button uk-button-default uk-margin-small-right" id="save-article" data-id="{{this._id}}" type="button" disabled="false">View Saved Articles</button>
             </div>
           </div>
         </div>

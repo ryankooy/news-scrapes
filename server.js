@@ -67,32 +67,36 @@ app.get('/scrape', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  db.Article.find({}).sort( { when: -1 } )
-    .then(data => {
-      res.render('index', { articles: data });
-    })
-    .catch(err => console.log(err));
+  db.Article.find({}).sort({ when: -1 })
+  .then(data => res.render('index', { articles: data }))
+  .catch(err => console.log(err));
 });
 
-app.get('/articles', (req, res) => {
+app.get('/articles', (req, res) => {                                                                                                                                                                                                                                                                                                                                                                                             nn
   db.Article.find({})
     .then(dbArticles => res.json(dbArticles))
     .catch(err => console.log(err));
 });
 
-app.post('/articles/:id', (req, res) => {
-  db.Note.create(req.body)
-    .then(dbNote => {
-     db.Article.findOneAndUpdate({}, { $push: { note: dbNote._id } }, { new: true });
-     console.log(dbNote);
-    })
-    .then(dbArticle => res.json(dbArticle))
-    .catch(err => res.json(err));
+app.get('/saved', (req, res) => {
+  db.Article.find({ saved: true }).sort({ saved: -1 })
+    .then(data => res.render('index', { articles: data }))
+    .catch(err => console.log(err));
 });
+
+// app.post('/articles/:id', (req, res) => {
+//   db.Note.create(req.body)
+//     .then(dbNote => {
+//      db.Article.findOneAndUpdate({}, { $push: { note: dbNote._id } }, { new: true });
+//      console.log(dbNote);
+//     })
+//     .then(dbArticle => res.json(dbArticle))
+//     .catch(err => res.json(err));
+// });
 
 app.get('/articles/:id',  (req, res) => {
   db.Article.findOne({ _id: req.params.id })
-    .populate('note')
+    // .populate('note')
     .then(dbArticle => res.json(dbArticle))
     .catch(err => res.json(err));
 });

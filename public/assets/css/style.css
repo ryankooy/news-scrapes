@@ -5,24 +5,24 @@ body {
   background-attachment: fixed;
 }
 
-*, #header, .uk-card-title {
+*, #header, .uk-text-small, .uk-card-title {
   font-family: 'Quicksand', sans-serif;
 }
 
 #header {
-  padding-top: 18px;
   color: rgba(153, 214, 255, 0.658);
-  font-size: 75px;
+  font-size: 85px;
+  padding-top: 15px;
 }
+/* 
+#header, .uk-text-small {
+  text-align: left;
+} */
 
-#scrape {
+#scrape, #view-saved, .uk-text-small {
   color: rgba(153, 214, 255, 0.658);
 }
 
 ul, li {
   list-style-type: none;
-}
-
-.text {
-  margin-top: 15px;
 }

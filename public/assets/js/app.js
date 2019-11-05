@@ -1,33 +1,36 @@
 // save note
-$('#save').on('click', () => {
-  const thisId = $(this).attr('data-id');
+// $('#save').on('click', () => {
+//   const thisId = $(this).attr('data-id');
   
-  $.ajax({
-    method: 'POST',
-    url: `/articles/${thisId}`,
-    data: {
-      title: $('#save-title').val(),
-      body: $('#save-note').val()
-    }
-  })
-  .then(data => {
-    console.log(data);
+//   $.ajax({
+//     method: 'POST',
+//     url: `/articles/${thisId}`,
+//     data: {
+//       body: $('#save-note').val()
+//     }
+//   })
+//   .then(data => {
+//     console.log(data);
 
-    $('#save-title').val('');
-    $('#save-note').val('');
-  });
-});
+//     $('#save-title').val('');
+//     $('#save-note').val('');
+//   });
+// });
 
 // view note
-$('#view').on('click', () => {
-  let thisId = $(this).attr('data-id');
+// $('#view').on('click', () => {
+//   let thisId = $(this).attr('data-id');
 
-  $.ajax({
-    method: 'GET',
-    url: `/articles/${thisId}`
-  })
-  .then(data => {
-    data.render('index', { body: data.body });
-    console.log(data);
-  });
-});
+//   $.ajax({
+//     method: 'GET',
+//     url: `/articles/${thisId}`
+//   })
+//   .then(data => {
+//     console.log(data);
+//   });
+// });
+
+// $('#save-article').on('click', () => {
+//   $(this).attr('disabled', 'true');
+//   $(this).
+// });
