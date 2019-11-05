@@ -52,11 +52,13 @@
             <h2 class="uk-modal-title">Science Note(s)</h2>
             <div class="uk-margin">
               <ul>
+                {{#if note}}
                 {{#each note}}
                   <li>
                     <div class="uk-text-left" data-id="{{this._id}}" id="note">{{this.body}}</div>
                   </li>
                 {{/each}}
+                {{/if}}
               </ul>
             </div>
             <p class="uk-text-right">
