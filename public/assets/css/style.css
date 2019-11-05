@@ -10,19 +10,21 @@ body {
 }
 
 #header {
+  padding-top: 18px;
+  padding-bottom: 0;
   color: rgba(153, 214, 255, 0.658);
   font-size: 85px;
   padding-top: 15px;
 }
-/* 
-#header, .uk-text-small {
-  text-align: left;
-} */
 
-#scrape, #view-saved, .uk-text-small {
+#scrape, .uk-text-small, #return {
   color: rgba(153, 214, 255, 0.658);
 }
 
 ul, li {
   list-style-type: none;
+}
+
+.text {
+  margin-top: 15px;
 }
