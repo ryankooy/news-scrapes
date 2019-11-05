@@ -26,8 +26,17 @@ $('#view').on('click', () => {
     method: 'GET',
     url: `/articles/${thisId}`
   })
-  .then(data => {
-    data.render('index', { body: data.body });
-    console.log(data);
-  });
+  .then(data => console.log(data));
+});
+
+// save article
+$('#save-article').on('click', (req, res) => {
+  let thisId = $(this).attr('data-id');
+  
+  $.ajax({
+    method: 'POST',
+    url: `/saved/${thisId}`,
+    data: { saved: true }
+  })
+  .then(data => console.log(data));
 });
