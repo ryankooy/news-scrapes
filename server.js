@@ -78,17 +78,23 @@ app.get('/articles', (req, res) => {
     .catch(err => console.log(err));
 });
 
+app.post('/saved', (req, res) => {
+  db.Article.update({ $set: { saved: true } })
+    .then(dbArticles => res.json(dbArticles))
+    .catch(err => console.log(err));
+});
+
 app.get('/saved', (req, res) => {
   db.Article.find({ saved: true }).sort({ when: -1 })
     .then(data => res.render('saved', { articles: data }))
     .catch(err => console.log(err));
 });
 
-app.get('/api/saved', (req, res) => {
-  db.Article.find({ saved: true }).sort({ when: -1 })
-    .then(dbArticles => res.json(dbArticles))
-    .catch(err => console.log(err));
-});
+// app.get('/api/saved', (req, res) => {
+//   db.Article.find({ saved: true }).sort({ when: -1 })
+//     .then(dbArticles => res.json(dbArticles))
+//     .catch(err => console.log(err));
+// });
 
 app.post('/articles/:id', (req, res) => {
   db.Note.create(req.body)
