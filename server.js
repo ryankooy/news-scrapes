@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 3030;
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/newsscrapes';
 
-mongoose.connect(MONGODB_URI);
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 function scrapeIt(url) {
   axios.get(url).then(response => {
@@ -59,6 +59,7 @@ function scrapeIt(url) {
   });
 }
 
+// routes
 app.get('/scrape', (req, res) => {
   scrapeIt('https://www.sciencenews.org/all-stories');
   scrapeIt('https://www.sciencenews.org/all-stories/page/2');
@@ -67,21 +68,21 @@ app.get('/scrape', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  db.Article.find({}).sort({ when: -1 })
+  db.Article.find({ saved: false }).sort({ when: -1 })
     .then(data => res.render('index', { articles: data }))
     .catch(err => console.log(err));
 });
 
 app.get('/articles', (req, res) => {
   db.Article.find({})
-    .then(dbArticles => res.json(dbArticles))
+    .then(data => res.json(data))
     .catch(err => console.log(err));
 });
 
 app.get('/saved', (req, res) => {
-  db.Article.find({ 'saved': true }).sort({ when: -1 })
+  db.Article.find({ saved: true }).sort({ when: -1 })
     .then(data => res.render('saved', { articles: data }))
-    .catch(err => console.log(err));
+    .catch(err => res.json(err));
 });
 
 app.get('/api/saved', (req, res) => {
@@ -90,10 +91,17 @@ app.get('/api/saved', (req, res) => {
     .catch(err => console.log(err));
 });
 
+app.put("/api/saved/:id", (req, res) => {
+  db.Article.updateOne({ _id: req.params.id }, { $set: { saved: true } },
+  (data => {
+    res.json(data);
+  }));
+});
+
 app.post('/articles/:id', (req, res) => {
   db.Note.create(req.body)
     .then(dbNote => {
-     return db.Article.findOneAndUpdate({}, { $set: { note: dbNote._id } }, { new: true });
+      return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
     })
     .then(dbArticle => res.json(dbArticle))
     .catch(err => res.json(err));
@@ -102,12 +110,6 @@ app.post('/articles/:id', (req, res) => {
 app.get('/articles/:id',  (req, res) => {
   db.Article.findOne({ _id: req.params.id })
     .populate('note')
-    .then(dbArticle => res.json(dbArticle))
-    .catch(err => res.json(err));
-});
-
-app.put("/saved/:id", (req, res) => {
-  db.Article.update({ _id: req.params.id }, { $set: { saved: true } })
     .then(dbArticle => res.json(dbArticle))
     .catch(err => res.json(err));
 });
