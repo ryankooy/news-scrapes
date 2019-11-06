@@ -15,7 +15,7 @@ $(document).on('click', 'save', () => {
 });
 
 // view note
-$(document).on('click', '#view', () => {
+$('#view').on('click', () => {
   let thisId = $(this).attr('data-id');
 
   $.ajax({
@@ -27,14 +27,50 @@ $(document).on('click', '#view', () => {
 });
 
 // save article
-$(document).on('click', '#save-article', (req, res) => {
-  let thisId = $(this).attr('data-id');
-  $('#save-article').attr('style', 'color: orange');
+// $(document).on('click', '#save-article', (req, res) => {
+//   let thisId = $(this).attr('data-id');
 
-  $.ajax({
-      method: 'PUT',
-      url: '/saved/' + thisId
+//   const thisTrue = {
+//     _id: thisId,
+//     saved: true
+//   }
+
+//   $('#save-article').attr('style', 'color: orange');
+  
+//   $.ajax({
+//       method: 'PUT',
+//       url: '/saved/' + thisId,
+//       data: { thisTrue }
+//     })
+//     .then(data => console.log(data))
+//     .catch(err => console.log(err));
+//   });
+
+  $(document).on('click', '#save-article', () => {
+    let selected = $(this);
+
+    $.ajax({
+      type: 'POST',
+      url: '/saved/' + selected.attr('data-id'),
+      dataType: 'json'
     })
-    .then(data => console.log(data))
-    .catch(err => console.log(err));
+      .then(data => console.log(data))
+      .catch(err => console.log(err));
   });
+
+  $(document).on('click', '#save', function() {
+    let selected = $(this);
+
+    $.ajax({
+      type: 'POST',
+      dataType: 'json',
+      url: '/articles/' + selected.attr('data-id'),
+      data: {
+        body: $('#save-note').val()
+      }
+    })
+      .then(() => {
+        $('#save-note').val('');
+      });
+  });
+  

@@ -78,15 +78,9 @@ app.get('/articles', (req, res) => {
     .catch(err => console.log(err));
 });
 
-app.put('/saved/:id', (req, res) => {
-  db.Article.update({ $set: {saved: true } })
-    .then(dbArticles => res.json(dbArticles))
-    .catch(err => console.log(err));
-});
-
 app.get('/saved', (req, res) => {
-  db.Article.find({ saved: true }).sort({ when: -1 })
-    .then(dbArticles => res.render('saved', { dbArticles }))
+  db.Article.find({ 'saved': true }).sort({ when: -1 })
+    .then(data => res.render('saved', { articles: data }))
     .catch(err => console.log(err));
 });
 
@@ -106,8 +100,14 @@ app.post('/articles/:id', (req, res) => {
 });
 
 app.get('/articles/:id',  (req, res) => {
-  db.Article.findOne({ _id: req.params._id })
+  db.Article.findOne({ _id: req.params.id })
     .populate('note')
+    .then(dbArticle => res.json(dbArticle))
+    .catch(err => res.json(err));
+});
+
+app.put("/saved/:id", (req, res) => {
+  db.Article.update({ _id: req.params.id }, { $set: { saved: true } })
     .then(dbArticle => res.json(dbArticle))
     .catch(err => res.json(err));
 });
