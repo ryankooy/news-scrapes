@@ -85,17 +85,15 @@ app.get('/saved', (req, res) => {
     .catch(err => res.json(err));
 });
 
-app.get('/api/saved', (req, res) => {
+app.get('/saved', (req, res) => {
   db.Article.find({ saved: true })
     .then(dbArticles => res.json(dbArticles))
     .catch(err => console.log(err));
 });
 
-app.put("/api/saved/:id", (req, res) => {
+app.put("/saved/:id", (req, res) => {
   db.Article.updateOne({ _id: req.params.id }, { $set: { saved: true } },
-  (data => {
-    res.json(data);
-  }));
+  (data => res.json(data)));
 });
 
 app.post('/articles/:id', (req, res) => {
@@ -111,6 +109,12 @@ app.get('/articles/:id',  (req, res) => {
   db.Article.findOne({ _id: req.params.id })
     .populate('note')
     .then(dbArticle => res.json(dbArticle))
+    .catch(err => res.json(err));
+});
+
+app.get('/note/:id', (req, res) => {
+  db.Note.find({ _id: req.params.id })
+    .then(dbNote => res.render('modalOutput', { note: dbNote._id }))
     .catch(err => res.json(err));
 });
 

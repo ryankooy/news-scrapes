@@ -1,12 +1,5 @@
 <div class="uk-container-medium uk-text-center uk-margin-medium-left uk-margin-large-right">
-  <div id="header">SCIENCE SCRAPES</div>
-    <div class="uk-text uk-text-small uk-margin-bottom">The <i>ScienceNews.org</i> Edition</div>
-    <div class="uk-button-group">
-      <a href="/scrape"><div class="uk-button uk-button-default uk-margin-small-right" id="scrape">Scrape the latest</div></a>
-      <a href="/saved"><div class="uk-button uk-button-default" id="view-saved">View Saved Articles</div></a>
-    </div>
-  <hr>
-
+  {{> nav }}
   <ul>
     {{#each articles}}
       <li>
@@ -30,40 +23,10 @@
           </div>
         </div>
 
-        {{!-- modals --}}
-        <div id="a-modal" uk-modal>
-          <div class="uk-modal-dialog uk-modal-body">
-            <h2 class="uk-modal-title">Science Note</h2>
-            <div class="uk-margin">
-              <form>
-                <textarea class="uk-textarea form-control" type="text" rows="5" id="save-note" data-id="{{_id}}" placeholder="Note here . . ."></textarea>
-                <p class="uk-text-right">
-                  <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                  <button class="uk-button uk-button-primary uk-modal-close" id="save" data-id="{{_id}}" type="button">Save Note</button>
-                </p>
-              </form>
-            </div>
-          </div>
-        </div>
-
-        <div id="b-modal" uk-modal>
-          <div class="uk-modal-dialog uk-modal-body">
-            <h2 class="uk-modal-title">Science Note(s)</h2>
-            <div class="uk-margin">
-              <ul>
-                  {{#each note}}
-                    <li>
-                      <p id="note">{{this.body}}</p>
-                    </li>
-                  {{/each}}
-              </ul>
-            </div>
-            <p class="uk-text-right">
-              <button class="uk-button uk-button-default uk-modal-close" type="button">OK</button>
-            </p>
-          </div>
-        </div>
       </li>
     {{/each}}
   </ul>
 </div>
+
+{{> modalInput }}
+{{> modalOutput }}

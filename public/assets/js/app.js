@@ -4,21 +4,21 @@ $('#view').on('click', () => {
 
   $.ajax({
     method: 'GET',
-    url: '/api/articles/' + thisId
+    url: '/articles/' + thisId
   })
   .then(data => console.log(data))
   .catch(err => console.log(err));
 });
 
 // save article
-$(document).on('click', '#save-article', (req, res) => {
-  let thisId = $(this).attr('data-id');
+$('#save-article').on('click', () => {
+  const thisId = $(this).attr('data-id');
 
   $('#save-article').attr('style', 'color: orange');
   
   $.ajax({
       method: 'PUT',
-      url: '/api/saved/' + thisId,
+      url: '/saved/' + thisId,
       data: { saved: true }
     })
     .then(data => console.log(data))
@@ -39,13 +39,13 @@ $(document).on('click', '#save-article', (req, res) => {
 // });
 
 // save note
-$(document).on('click', '#save', () => {
+$('#save').on('click', () => {
   const thisId = $(this).attr('data-id');
   const thisNote = $('#save-note').val().trim();
 
   $.ajax({
     type: 'POST',
-    url: '/api/articles/' + thisId,
+    url: '/articles/' + thisId,
     data: {
       body: thisNote
     }
