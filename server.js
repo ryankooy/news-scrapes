@@ -108,13 +108,9 @@ app.post('/articles/:id', (req, res) => {
 app.get('/articles/:id',  (req, res) => {
   db.Article.findOne({ _id: req.params.id })
     .populate('note')
-    .then(dbArticle => res.json(dbArticle))
-    .catch(err => res.json(err));
-});
-
-app.get('/note/:id', (req, res) => {
-  db.Note.find({ _id: req.params.id })
-    .then(dbNote => res.render('modalOutput', { note: dbNote._id }))
+    .then((dbNote) => {
+      res.render('modalOutput', { note: dbNote._id }))
+     })
     .catch(err => res.json(err));
 });
 
