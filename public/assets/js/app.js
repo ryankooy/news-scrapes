@@ -15,7 +15,7 @@ $('#save-article').on('click', () => {
   const thisDataId = $(this).attr('data-id');
   const thisId = $(this).attr('id', 'save-article');
   
-  $(thisId).toggle('style', 'color: orange');
+  $(thisId).attr('style', 'color: orange');
   
   $.ajax({
       method: 'PUT',
