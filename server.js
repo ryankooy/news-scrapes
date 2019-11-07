@@ -106,10 +106,17 @@ app.post('/articles/:id', (req, res) => {
 });
 
 app.get('/articles/:id',  (req, res) => {
+  const obj = {
+    body: []  
+  }
+  
   db.Article.findOne({ _id: req.params.id })
     .populate('note')
-    .then((dbNote) => {
-      res.render('modalOutput', { note: dbNote._id }))
+    .exec(() => {
+      $('#note').each(() => {
+        obj.body = $(this).val();
+        res.render('modalOutput', { obj }))
+      }
      })
     .catch(err => res.json(err));
 });
