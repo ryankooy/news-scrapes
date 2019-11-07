@@ -12,31 +12,19 @@ $('#view').on('click', () => {
 
 // save article
 $('#save-article').on('click', () => {
-  const thisId = $(this).attr('data-id');
-
-  $('#save-article').attr('style', 'color: orange');
+  const thisDataId = $(this).attr('data-id');
+  const thisId = $(this).attr('id', 'save-article');
+  
+  $(thisId).toggle('style', 'color: orange');
   
   $.ajax({
       method: 'PUT',
-      url: '/saved/' + thisId,
+      url: '/saved/' + thisDataId,
       data: { saved: true }
     })
     .then(data => console.log(data))
     .catch(err => console.log(err));
   });
-
-// $(document).on('click', '#save-article', event => {
-//   event.preventDefault();
-
-//   let thisId = $(this).attr('data-id');
-
-//   $.ajax({
-//     method: 'PUT',
-//     url: '/saved/' + thisId
-//     })
-//       .then(data => console.log(data))
-//       .catch(err => console.log(err));
-// });
 
 // save note
 $('#save').on('click', () => {
