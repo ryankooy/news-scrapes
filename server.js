@@ -108,15 +108,15 @@ app.post('/articles/:id', (req, res) => {
 app.get('/articles/:id',  (req, res) => {
   db.Article.findOne({ _id: req.params.id })
     .populate('note')
-    .then(() => {
+    .then(data => {
       const obj = {
         body: []  
       }
       
       $('#note').each(() => {
-        obj.body = $(this).val();
-        res.render('modalOutput', { notes: obj }))
-      }
+        obj.body = $(this).text();
+        res.render('modalOutput', { notes: obj });
+      })
      })
     .catch(err => res.json(err));
 });
