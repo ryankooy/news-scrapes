@@ -10,21 +10,21 @@ $('#view').on('click', () => {
   .catch(err => console.log(err));
 });
 
-// // save article
-// $('#save-article').on('click', () => {
-//   const thisDataId = $(this).attr('data-id');
-//   const thisId = $(this).attr('id', 'save-article');
+// save article
+$('#save-article').on('click', () => {
+  const thisDataId = $(this).attr('data-id');
+  const thisId = $(this).attr('id', 'save-article');
   
-//   $(thisId).attr('style', 'color: orange');
+  $(thisId).attr('style', 'color: orange');
   
-//   $.ajax({
-//       method: 'PUT',
-//       url: '/saved/' + thisDataId,
-//       data: { saved: true }
-//     })
-//     .then(data => console.log(data))
-//     .catch(err => console.log(err));
-//   });
+  $.ajax({
+      method: 'PUT',
+      url: '/saved/' + thisDataId,
+      data: { saved: true }
+    })
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
+  });
 
 // save note
 $('#save').on('click', () => {
@@ -41,4 +41,3 @@ $('#save').on('click', () => {
     .then(data => console.log(data))
     .catch(err => console.log(err));
 });
-  
