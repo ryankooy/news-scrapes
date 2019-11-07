@@ -1,3 +1,7 @@
+// TODO:
+// - make the #save-article button effectively update 'saved' to true
+// - bind notes to individual articles
+
 const express = require('express');
 const exphbs = require('express-handlebars');
 const logger = require('morgan');

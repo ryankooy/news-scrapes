@@ -1,3 +1,7 @@
+// TODO:
+// - make the #save-article button effectively update 'saved' to true
+// - bind notes to individual articles
+
 // view note
 $('#view').on('click', () => {
   let thisId = $(this).attr('data-id');
