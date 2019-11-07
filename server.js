@@ -27,7 +27,7 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/newsscrapes'
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 app.use(require('./routes/apiRoutes')(db));
-// app.use(require('./routes/htmlRoutes'));
+app.use(require('./routes/htmlRoutes'));
 
 function scrapeIt(url) {
   axios.get(url).then(response => {
