@@ -26,6 +26,9 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/newsscrapes'
 
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
+app.use(require('./routes/apiRoutes')(db));
+// app.use(require('./routes/htmlRoutes'));
+
 function scrapeIt(url) {
   axios.get(url).then(response => {
     const $ = cheerio.load(response.data);
@@ -63,7 +66,7 @@ function scrapeIt(url) {
   });
 }
 
-// routes
+// scraping route
 app.get('/scrape', (req, res) => {
   scrapeIt('https://www.sciencenews.org/all-stories');
   scrapeIt('https://www.sciencenews.org/all-stories/page/2');
@@ -71,51 +74,6 @@ app.get('/scrape', (req, res) => {
   res.redirect('/');
 });
 
-app.get('/', (req, res) => {
-  db.Article.find({ saved: false }).sort({ when: -1 })
-    .then(dbArticles => res.render('index', { articles: dbArticles }))
-    .catch(err => res.json(err));
-});
-
-app.get('/articles', (req, res) => {
-  db.Article.find({})
-    .then(dbArticles => res.json(dbArticles))
-    .catch(err => res.json(err));
-});
-
-app.get('/saved', (req, res) => {
-  db.Article.find({ saved: true }).sort({ when: -1 })
-    .then(dbArticles => res.render('saved', { articles: dbArticles }))
-    .catch(err => res.json(err));
-});
-
-app.get('/saved', (req, res) => {
-  db.Article.find({ saved: true })
-    .then(dbArticles => res.json(dbArticles))
-    .catch(err => res.json(err));
-});
-
-app.put('/saved/:id', (req, res) => {
-  db.Article.updateOne({ _id: req.params.id }, { $set: { saved: true } })
-  .then(dbArticle => res.json(dbArticle))
-  .catch(err => res.json(err));
-});
-
-app.post('/articles/:id', (req, res) => {
-  db.Note.create(req.body)
-    .then(dbNote => {
-      return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
-    })
-    .then(dbArticle => res.json(dbArticle))
-    .catch(err => res.json(err));
-});
-
-app.get('/articles/:id', (req, res) => {
-  db.Article.findOne()
-    .select('_id')
-    .populate('note')
-    .then(data => res.render('modalOutput', { notes: data }))
-    .catch(err => res.json(err));
-});
-
 app.listen(PORT, () => console.log(`App is now listening on port ${PORT} . . .`));
+
+module.exports = app;

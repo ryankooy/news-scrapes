@@ -3,10 +3,10 @@
     <h2 class="uk-modal-title">Science Note</h2>
     <div class="uk-margin">
         <form>
-          <textarea class="uk-textarea form-control" type="text" rows="5" id="save-note" data-id="{{this._id}}" placeholder="Note here . . ."></textarea>
+          <textarea class="uk-textarea form-control" type="text" rows="5" id="save-note" data-id="{{articles._id}}" placeholder="Note here . . ."></textarea>
           <p class="uk-text-right">
-            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-            <button class="uk-button uk-button-primary uk-modal-close" id="save" data-id="{{this._id}}" type="button">Save Note</button>
+            <button class="uk-button uk-button-default uk-modal-close" data-id="{{articles._id}}" type="button">Cancel</button>
+            <button class="uk-button uk-button-primary uk-modal-close" id="save" data-id="{{articles._id}}" type="button">Save Note</button>
           </p>
         </form>
     </div>

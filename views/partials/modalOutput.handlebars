@@ -1,13 +1,11 @@
 <div id="b-modal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body">
-    <h2 class="uk-modal-title">Science Note(s)</h2>
+    <h2 class="uk-modal-title">Science Note</h2>
     <div class="uk-margin">
       <ul>
-        {{#each notes}}
-          <li>
-            <p id="note">{{this.body}}</p>
-          </li>
-        {{/each}}
+        <li>
+          <p id="note">{{note.body}}</p>
+        </li>
       </ul>
     </div>
     <p class="uk-text-right">
