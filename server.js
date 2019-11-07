@@ -105,20 +105,20 @@ app.post('/articles/:id', (req, res) => {
     .catch(err => res.json(err));
 });
 
-app.get('/articles/:id',  (req, res) => {
-  const obj = {
-    body: []  
-  }
+// app.get('/articles/:id',  (req, res) => {
+//   const obj = {
+//     body: []  
+//   }
   
-  db.Article.findOne({ _id: req.params.id })
-    .populate('note')
-    .exec(() => {
-      $('#note').each(() => {
-        obj.body = $(this).val();
-        res.render('modalOutput', { obj }))
-      }
-     })
-    .catch(err => res.json(err));
-});
+//   db.Article.findOne({ _id: req.params.id })
+//     .populate('note')
+//     .exec(() => {
+//       $('#note').each(() => {
+//         obj.body = $(this).val();
+//         res.render('modalOutput', { obj }))
+//       }
+//      })
+//     .catch(err => res.json(err));
+// });
 
 app.listen(PORT, () => console.log(`App is now listening on port ${PORT} . . .`));
