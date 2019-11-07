@@ -73,31 +73,32 @@ app.get('/scrape', (req, res) => {
 
 app.get('/', (req, res) => {
   db.Article.find({ saved: false }).sort({ when: -1 })
-    .then(data => res.render('index', { articles: data }))
-    .catch(err => console.log(err));
+    .then(dbArticles => res.render('index', { articles: dbArticles }))
+    .catch(err => res.json(err));
 });
 
 app.get('/articles', (req, res) => {
   db.Article.find({})
-    .then(data => res.json(data))
-    .catch(err => console.log(err));
+    .then(dbArticles => res.json(dbArticles))
+    .catch(err => res.json(err));
 });
 
 app.get('/saved', (req, res) => {
   db.Article.find({ saved: true }).sort({ when: -1 })
-    .then(data => res.render('saved', { articles: data }))
+    .then(dbArticles => res.render('saved', { articles: dbArticles }))
     .catch(err => res.json(err));
 });
 
 app.get('/saved', (req, res) => {
   db.Article.find({ saved: true })
     .then(dbArticles => res.json(dbArticles))
-    .catch(err => console.log(err));
+    .catch(err => res.json(err));
 });
 
-app.put("/saved/:id", (req, res) => {
-  db.Article.updateOne({ _id: req.params.id }, { $set: { saved: true } },
-  (data => res.json(data)));
+app.put('/saved/:id', (req, res) => {
+  db.Article.updateOne({ _id: req.params.id }, { $set: { saved: true } })
+  .then(dbArticle => res.json(dbArticle))
+  .catch(err => res.json(err));
 });
 
 app.post('/articles/:id', (req, res) => {
@@ -109,15 +110,11 @@ app.post('/articles/:id', (req, res) => {
     .catch(err => res.json(err));
 });
 
-app.get('/articles/:id',  (req, res) => {
-  db.Article.findOne({ _id: req.params.id })
+app.get('/articles/:id', (req, res) => {
+  db.Article.findOne()
+    .select('_id')
     .populate('note')
-    .then(data => {
-      const obj = {
-        body: data
-      }
-      res.render('modalOutput', { notes: obj });
-     })
+    .then(data => res.render('modalOutput', { notes: data }))
     .catch(err => res.json(err));
 });
 
