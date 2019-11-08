@@ -62,7 +62,12 @@ module.exports = () => {
         .catch(err => res.json(err));
     },
     saveArticle: function(req, res) {
-      db.Article.updateOne({ _id: req.params.id }, { $set: { saved: true } })
+      const savedArticle = {
+        _id: req.params.id,
+        saved: true
+      }
+
+      db.Article.update(savedArticle)
         .then(dbArticle => {
           res.json(dbArticle);
           res.redirect('/');
@@ -72,7 +77,7 @@ module.exports = () => {
     saveNote: function(req, res) {
       db.Note.create(req.body)
         .then(dbNote => {
-          return db.Article.findOneAndUpdate({ _id: req.params.id }, { $push: { note: dbNote.body} }, { new: true });
+          return db.Article.findOneAndUpdate({}, { $push: { note: dbNote._id } }, { new: true });
         })
         .then(dbArticle => res.json(dbArticle))
         .catch(err => res.json(err));

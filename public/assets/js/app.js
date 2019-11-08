@@ -35,6 +35,7 @@ $(document).on('click', '#save', () => {
     type: 'POST',
     url: `/articles/${thisId.attr('data-id')}`,
     data: {
+      _id: thisId.attr('data-id'),
       body: $('#save-note').val()
     }
   })
