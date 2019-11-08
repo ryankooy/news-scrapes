@@ -3,45 +3,39 @@
 // - bind notes to individual articles
 
 // view note
-$('#view').on('click', () => {
-  const thisId = $(this).data('id');
+$(document).on('click', '#view', () => {
+  const thisId = $(this).parent();
 
   $.ajax({
     method: 'GET',
-    url: '/articles/' + thisId
+    url: `/articles/${thisId.attr('data-id')}`
   })
   .then(data => console.log(data))
   .catch(err => console.log(err));
 });
 
 // save article
-$('#save-article').on('click', () => {
-  $(this).attr('style', 'color: orange');
-  const thisId = $(this).data('id');
+$(document).on('click', '#save-article', () => {
+  const thisId = $(this).parent();
   
   $.ajax({
       method: 'PUT',
-      url: '/saved/' + thisId,
-      data: {
-        _id: thisId,
-        saved: true
-      }
+      url: `/saved/${thisId.attr('data-id')}`,
+      data: { $set: { saved: true } }
     })
     .then(data => console.log(data))
     .catch(err => console.log(err));
   });
 
 // save note
-$('#save').on('click', () => {
-  const thisId = $(this).attr('data-id');
-  const thisNote = $('textarea #save-note').val().trim();
+$(document).on('click', '#save', () => {
+  const thisId = $(this).parent();
 
   $.ajax({
     type: 'POST',
-    url: '/articles/' + thisId,
+    url: `/articles/${thisId.attr('data-id')}`,
     data: {
-      _id: thisId,
-      body: thisNote
+      body: $('#save-note').val()
     }
   })
     .then(data => console.log(data))

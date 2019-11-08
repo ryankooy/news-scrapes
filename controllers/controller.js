@@ -2,7 +2,7 @@ const db = require('../models');
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-module.exports = db => {
+module.exports = () => {
   return {
     scrape: function(req, res) {
       function scrapeIt(url) {
@@ -51,23 +51,28 @@ module.exports = db => {
     },
     getAll: function(req, res) {
       db.Article.find({ saved: false }).sort({ when: -1 })
+        // .then(dbArticles => res.json(dbArticles))
         .then(dbArticles => res.render('index', { articles: dbArticles }))
         .catch(err => res.json(err));
     },
     getSaved: function(req, res) {
       db.Article.find({ saved: true }).sort({ when: -1 })
+        // .then(dbArticles => res.json(dbArticles))
         .then(dbArticles => res.render('saved', { articles: dbArticles }))
         .catch(err => res.json(err));
     },
     saveArticle: function(req, res) {
       db.Article.updateOne({ _id: req.params.id }, { $set: { saved: true } })
-        .then(dbArticle => res.json(dbArticle))
+        .then(dbArticle => {
+          res.json(dbArticle);
+          res.redirect('/');
+        })
         .catch(err => res.json(err));
     },
     saveNote: function(req, res) {
       db.Note.create(req.body)
         .then(dbNote => {
-          return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
+          return db.Article.findOneAndUpdate({ _id: req.params.id }, { $push: { note: dbNote.body} }, { new: true });
         })
         .then(dbArticle => res.json(dbArticle))
         .catch(err => res.json(err));
@@ -75,7 +80,7 @@ module.exports = db => {
     populateNotes: function(req, res) {
       db.Article.findOne({ _id: req.params.id })
         .populate('note')
-        .then(data => res.render('modalInput', { note: data }))
+        .then(dbArticle => res.json(dbArticle))
         .catch(err => res.json(err));      
     }
   };

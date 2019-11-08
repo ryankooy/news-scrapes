@@ -14,9 +14,9 @@
               <div class="uk-card-footer">
                 <a href="{{URL}}" class="uk-button uk-button-text">Go to full article.</a>
               </div>
-              <div class="uk-button-group">
-                <button class="uk-button uk-button-default" id="save-article" type="button">Save Article</button>
-                <button class="uk-button uk-button-default" type="button" uk-toggle="target: #a-modal">Create / View Note</button>
+              <div class="uk-button-group" data-id="{{this._id}}">
+                <button class="uk-button uk-button-default" action="/saved/{{this._id}}" method="PUT" id="save-article" type="button">Save Article</button>
+                <button class="uk-button uk-button-default" action="/articles/{{this._id}}" method="GET" type="button" id="view" uk-toggle="target: #a-modal">Create / View Note</button>
                 {{!-- button class="uk-button uk-button-default" id="view" type="button" uk-toggle="target: #b-modal">View Note(s)</button> --}}
               </div>
             </div>
