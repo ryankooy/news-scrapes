@@ -72,11 +72,10 @@ module.exports = db => {
         .then(dbArticle => res.json(dbArticle))
         .catch(err => res.json(err));
     },
-    populateNotes: function() {
-      db.Article.findOne()
-        .select('_id')
+    populateNotes: function(req, res) {
+      db.Article.findOne({ _id: req.params.id })
         .populate('note')
-        .then(data => res.render('modalOutput', { notes: data }))
+        .then(data => res.render('modalInput', { note: data }))
         .catch(err => res.json(err));      
     }
   };

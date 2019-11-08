@@ -29,51 +29,6 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 app.use(require('./routes/apiRoutes')(db));
 app.use(require('./routes/htmlRoutes'));
 
-function scrapeIt(url) {
-  axios.get(url).then(response => {
-    const $ = cheerio.load(response.data);
-
-    $('li div').each((i, element) => {
-      let result = {};
-
-      result.headline = $(element)
-        .find('h3')
-        .children('a')
-        .text().trim();
-      result.summary = $(element)
-        .children('p.post-item-river__excerpt___3ok6B')
-        .text().trim();
-      result.URL = $(element)
-        .children('h3.post-item-river__title___J3spU')
-        .children('a')
-        .attr('href');
-      result.image = $(element)
-        .parent('li')
-        .children('figure')
-        .children('a')
-        .children('img')
-        .attr('src');
-      result.when = $(element)
-        .find('time')
-        .text().trim();
-
-      if (result.headline && result.summary && result.URL && result.image && result.when) {
-        db.Article.create(result)
-        .then(dbArticles => console.log(dbArticles))
-        .catch(err => console.log(err));
-      }
-    });
-  });
-}
-
-// scraping route
-app.get('/scrape', (req, res) => {
-  scrapeIt('https://www.sciencenews.org/all-stories');
-  scrapeIt('https://www.sciencenews.org/all-stories/page/2');
-  scrapeIt('https://www.sciencenews.org/all-stories/page/3');
-  res.redirect('/');
-});
-
 app.listen(PORT, () => console.log(`App is now listening on port ${PORT} . . .`));
 
 module.exports = app;
