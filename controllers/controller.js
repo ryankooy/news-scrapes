@@ -57,17 +57,11 @@ module.exports = () => {
     },
     getSaved: function(req, res) {
       db.Article.find({ saved: true }).sort({ when: -1 })
-        // .then(dbArticles => res.json(dbArticles))
-        .then(dbArticles => res.render('saved', { articles: dbArticles }))
+        .then(dbArticles => res.render('saved', { saved: dbArticles }))
         .catch(err => res.json(err));
     },
     saveArticle: function(req, res) {
-      const savedArticle = {
-        _id: req.params.id,
-        saved: true
-      }
-
-      db.Article.update(savedArticle)
+      db.Article.updateOne({ $set: { saved : true} } )
         .then(dbArticle => {
           res.json(dbArticle);
           res.redirect('/');

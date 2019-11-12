@@ -19,9 +19,8 @@ $(document).on('click', '#save-article', () => {
   const thisId = $(this).parent();
   
   $.ajax({
-      method: 'PUT',
-      url: `/saved/${thisId.attr('data-id')}`,
-      data: { $set: { saved: true } }
+      method: 'PATCH',
+      url: `/saved/${thisId.attr('data-id')}`
     })
     .then(data => console.log(data))
     .catch(err => console.log(err));
@@ -35,7 +34,6 @@ $(document).on('click', '#save', () => {
     type: 'POST',
     url: `/articles/${thisId.attr('data-id')}`,
     data: {
-      _id: thisId.attr('data-id'),
       body: $('#save-note').val()
     }
   })
